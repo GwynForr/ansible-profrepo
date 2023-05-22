@@ -1,0 +1,6 @@
+---
+ -  hosts: atlanta 
+    become: yes
+    roles:
+      - apache
+

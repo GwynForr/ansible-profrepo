@@ -5,10 +5,10 @@
 [devserver]
 54.144.229.169
 
-#[children:devqa]
+[atlanta:children]
+qaserver
+devserver
 
-#qaserver
-#devserver
 
 [qaserver:vars]
 

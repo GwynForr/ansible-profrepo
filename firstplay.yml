@@ -1,0 +1,49 @@
+---
+- hosts: atlanta
+  remote_user: ec2-user
+  become: yes  
+  vars: 
+    USER_NAME: u6bt 
+
+  tasks:
+    - name:
+      debug:
+        msg:  "the OS is {{ ansible_os_family}}"
+    - name: Create user
+      user: 
+        name: "{{ USER_NAME}}"
+        comment: "Monte Carlos"
+      when:
+        - ansible_distribution == 'Ubuntu'  
+    - name: Create file
+      file:
+         dest: /tmp/serge.txt
+         state: touch 
+      register: result
+    - name: get result info 
+      debug:
+       var: result.diff.after.path     
+    - name: Create directory     
+      file:
+         dest: /tmp/ansible_dir
+         state: directory
+         mode: '0755'
+    - name: install apache
+      yum:
+        name: "{{ packages_name }}"
+      vars:
+        packages_name:
+          - httpd
+          - httpd-tools
+          - wget
+          - finger    
+    - name: start apache daemon
+      service:
+          name: httpd
+          state: started
+          enabled: yes
+
+
+
+
+
